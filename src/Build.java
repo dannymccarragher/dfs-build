@@ -133,7 +133,28 @@ public class Build {
    * @return true if the destination is reachable from the start, false otherwise
    */
   public static boolean canReach(Airport start, Airport destination) {
-    return false;
+    // if start == null return false;
+    //if destination == null return false
+    // create helper method for using set to track visited airports
+    //
+    return canReachHelper(start, destination, new HashSet<>());
+  }
+
+  public static boolean canReachHelper(Airport start, Airport destination, Set<Airport> visited){
+    if(start == null || destination == null) return false;
+    if(start == destination) return true;
+
+    visited.add(start);
+
+    for(Airport neighbor : start.getOutboundFlights()){
+      if(!visited.contains(neighbor)){
+        if(canReachHelper(neighbor, destination, visited)){
+          return true;
+        }
+      }
+    }
+
+    return false; 
   }
 
   /**
