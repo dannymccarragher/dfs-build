@@ -14,6 +14,36 @@ public class Build {
    * @param k the maximum word length (exclusive)
    */
   public static void printShortWords(Vertex<String> vertex, int k) {
+    // create helper method using set to track visited
+    // vertex == null return ""
+    //add vertex to set 
+    // for each loop on neighbors
+
+    printShortWordsHelper(vertex, k, new HashSet<>());
+  }
+
+  public static void printShortWordsHelper(Vertex<String> vertex, int k, Set<Vertex<String>> visited){
+    if(vertex == null){
+       System.out.println("");
+    }
+
+    visited.add(vertex);
+
+    if(!visited.contains(vertex)){
+      System.out.println("");
+    }
+
+    if(vertex.data.length() < k){
+      System.out.println(vertex.data);
+    }
+
+
+    for(var neighbor : vertex.neighbors){
+      if(!visited.contains(neighbor)){
+      printShortWordsHelper(neighbor, k, visited);
+      }
+    }
+
   }
 
   /**
