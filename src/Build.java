@@ -169,6 +169,27 @@ public class Build {
    * @return a set of values that cannot be reached from the starting value
    */
   public static <T> Set<T> unreachable(Map<T, List<T>> graph, T starting) {
-    return new HashSet<>();
+    return unreachableHelper(graph, starting, new HashSet<>(), new HashSet<>(graph.keySet()));
+  }
+
+  public static <T> Set<T> unreachableHelper(Map<T, List<T>> graph, T starting, Set<T> visited,
+                            Set<T> allNodes) {
+    if(!graph.containsKey(starting)){
+       return allNodes;
+    }
+
+    visited.add(starting);
+
+    for(var neighbor : graph.get(starting)){
+      if(!visited.contains(neighbor))
+      unreachableHelper(graph, neighbor, visited, allNodes);
+    }
+
+    //subtract visited nodes from allNodes
+    allNodes.removeAll(visited);
+
+    return allNodes;
+
+
   }
 }
